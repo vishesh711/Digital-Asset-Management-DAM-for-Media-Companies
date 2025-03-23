@@ -9,7 +9,7 @@ const mockAssets = [
     id: '1',
     title: 'Brand Logo 2023',
     type: 'Image',
-    thumbnail: 'https://via.placeholder.com/300x200/0078d4/FFFFFF?text=Logo',
+    thumbnail: '/mock-images/logo.jpg',
     createdAt: '2023-03-15',
     size: '2.4 MB'
   },
@@ -17,7 +17,7 @@ const mockAssets = [
     id: '2',
     title: 'Product Launch Video',
     type: 'Video',
-    thumbnail: 'https://via.placeholder.com/300x200/FF4500/FFFFFF?text=Video',
+    thumbnail: '/mock-images/video-thumbnail.jpg',
     createdAt: '2023-03-12',
     size: '45.2 MB'
   },
@@ -25,7 +25,7 @@ const mockAssets = [
     id: '3',
     title: 'Q1 Marketing Report',
     type: 'Document',
-    thumbnail: 'https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=PDF',
+    thumbnail: '/mock-images/document.jpg',
     createdAt: '2023-03-10',
     size: '3.8 MB'
   },
@@ -33,7 +33,7 @@ const mockAssets = [
     id: '4',
     title: 'Social Media Campaign',
     type: 'Image',
-    thumbnail: 'https://via.placeholder.com/300x200/9C27B0/FFFFFF?text=Campaign',
+    thumbnail: '/mock-images/social-campaign.jpg',
     createdAt: '2023-03-05',
     size: '1.7 MB'
   }
@@ -92,7 +92,20 @@ const DashboardPage = () => {
           {mockAssets.map(asset => (
             <div className="asset-card" key={asset.id}>
               <div className="asset-thumbnail">
-                <img src={asset.thumbnail} alt={asset.title} />
+                <img 
+                  src={asset.thumbnail} 
+                  alt={asset.title}
+                  onError={(e) => {
+                    // Set a colored background based on asset type
+                    let bgColor = '#0078d4'; // Default blue
+                    if (asset.type === 'Video') bgColor = '#FF4500';
+                    if (asset.type === 'Document') bgColor = '#4CAF50';
+                    if (asset.type === 'Audio') bgColor = '#FFC107';
+                    
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = `https://via.placeholder.com/300x200/${bgColor.substring(1)}/FFFFFF?text=${asset.type}`;
+                  }}
+                />
                 <div className="asset-type">{asset.type}</div>
               </div>
               <div className="asset-info">
