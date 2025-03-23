@@ -105,6 +105,9 @@ const resolvers = {
   MetadataSchema: metadataResolvers.MetadataSchema,
   License: licenseResolvers.License,
   Tag: tagResolvers.Tag,
+  DistributionChannel: distributionResolvers.DistributionChannel,
+  Distribution: distributionResolvers.Distribution,
+  AssetUsage: analyticsResolvers.AssetUsage,
 };
 
 module.exports = resolvers; 
