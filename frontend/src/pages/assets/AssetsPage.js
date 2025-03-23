@@ -8,7 +8,7 @@ const mockAssets = [
     id: '1',
     title: 'Brand Logo 2023',
     type: 'Image',
-    thumbnail: '/mock-images/logo.jpg',
+    thumbnail: 'https://placehold.co/300x200/0078d4/FFFFFF.png?text=Logo',
     createdAt: '2023-03-15',
     size: '2.4 MB',
     tags: ['logo', 'brand', 'marketing']
@@ -17,7 +17,7 @@ const mockAssets = [
     id: '2',
     title: 'Product Launch Video',
     type: 'Video',
-    thumbnail: '/mock-images/video-thumbnail.jpg',
+    thumbnail: 'https://placehold.co/300x200/FF4500/FFFFFF.png?text=Video',
     createdAt: '2023-03-12',
     size: '45.2 MB',
     tags: ['video', 'product', 'launch']
@@ -26,7 +26,7 @@ const mockAssets = [
     id: '3',
     title: 'Q1 Marketing Report',
     type: 'Document',
-    thumbnail: '/mock-images/document.jpg',
+    thumbnail: 'https://placehold.co/300x200/4CAF50/FFFFFF.png?text=PDF',
     createdAt: '2023-03-10',
     size: '3.8 MB',
     tags: ['report', 'marketing', 'quarterly']
@@ -35,7 +35,7 @@ const mockAssets = [
     id: '4',
     title: 'Social Media Campaign',
     type: 'Image',
-    thumbnail: '/mock-images/social-campaign.jpg',
+    thumbnail: 'https://placehold.co/300x200/9C27B0/FFFFFF.png?text=Campaign',
     createdAt: '2023-03-05',
     size: '1.7 MB',
     tags: ['social', 'campaign', 'marketing']
@@ -44,7 +44,7 @@ const mockAssets = [
     id: '5',
     title: 'Company Podcast',
     type: 'Audio',
-    thumbnail: '/mock-images/podcast.jpg',
+    thumbnail: 'https://placehold.co/300x200/FFC107/FFFFFF.png?text=Audio',
     createdAt: '2023-03-01',
     size: '28.5 MB',
     tags: ['podcast', 'audio', 'interview']
@@ -53,7 +53,7 @@ const mockAssets = [
     id: '6',
     title: 'Mobile App Screenshots',
     type: 'Image',
-    thumbnail: '/mock-images/mobile-app.jpg',
+    thumbnail: 'https://placehold.co/300x200/795548/FFFFFF.png?text=Mobile',
     createdAt: '2023-02-28',
     size: '3.2 MB',
     tags: ['mobile', 'app', 'screenshot']
@@ -62,7 +62,7 @@ const mockAssets = [
     id: '7',
     title: 'Product Catalog',
     type: 'Document',
-    thumbnail: '/mock-images/catalog.jpg',
+    thumbnail: 'https://placehold.co/300x200/607D8B/FFFFFF.png?text=Catalog',
     createdAt: '2023-02-25',
     size: '12.8 MB',
     tags: ['catalog', 'product', 'pdf']
@@ -71,7 +71,7 @@ const mockAssets = [
     id: '8',
     title: 'Team Meeting Recording',
     type: 'Video',
-    thumbnail: '/mock-images/meeting.jpg',
+    thumbnail: 'https://placehold.co/300x200/E91E63/FFFFFF.png?text=Meeting',
     createdAt: '2023-02-20',
     size: '124.5 MB',
     tags: ['meeting', 'video', 'team']
@@ -160,20 +160,7 @@ const AssetsPage = () => {
           filteredAssets.map(asset => (
             <div className="asset-card" key={asset.id}>
               <div className="asset-thumbnail">
-                <img 
-                  src={asset.thumbnail} 
-                  alt={asset.title}
-                  onError={(e) => {
-                    // Set a colored background based on asset type
-                    let bgColor = '#0078d4'; // Default blue
-                    if (asset.type === 'Video') bgColor = '#FF4500';
-                    if (asset.type === 'Document') bgColor = '#4CAF50';
-                    if (asset.type === 'Audio') bgColor = '#FFC107';
-                    
-                    e.target.onerror = null; // Prevent infinite loop
-                    e.target.src = `https://via.placeholder.com/300x200/${bgColor.substring(1)}/FFFFFF?text=${asset.type}`;
-                  }}
-                />
+                <img src={asset.thumbnail} alt={asset.title} />
                 <div className="asset-type">{asset.type}</div>
               </div>
               <div className="asset-info">

@@ -1,6 +1,16 @@
 # Digital Asset Management (DAM) System for Media Companies
 
-A comprehensive digital asset management solution designed specifically for media companies to efficiently organize, store, search, and distribute digital assets like images, videos, and documents.
+A digital asset management solution designed for media companies to organize, store, search, and distribute digital assets like images, videos, and documents.
+
+## Project Status - IMPORTANT
+
+**This project is currently in early development with several limitations:**
+
+- The application is primarily a frontend prototype with limited functionality
+- Many features are simulated with mock data and are not fully functional
+- Backend integration is incomplete
+- Collections and upload functionality are not working
+- Image loading may have issues depending on your environment
 
 ## What Problem It Solves
 
@@ -11,7 +21,7 @@ Media companies like news outlets, advertising agencies, and content creators de
 - Time-consuming to manage
 - Challenging to share with the right people
 
-This Digital Asset Management (DAM) system solves these challenges by providing a central hub where all digital assets can be organized, searched, and distributed efficiently.
+This Digital Asset Management (DAM) system aims to solve these challenges by providing a central hub where all digital assets can be organized, searched, and distributed efficiently.
 
 ## How It Solves These Problems
 
@@ -38,9 +48,9 @@ This Digital Asset Management (DAM) system solves these challenges by providing 
 ## Features
 
 - **User Authentication**: Secure login and registration system with role-based access control
-- **Asset Management**: Upload, categorize, tag, and search for digital assets
-- **Dashboard**: Interactive dashboard showing asset statistics and recently uploaded items
-- **Collections**: Group related assets into collections for easier management
+- **Asset Management**: Upload, categorize, tag, and search for digital assets (currently with limitations)
+- **Dashboard**: Interactive dashboard showing asset statistics and recently uploaded items (currently using mock data)
+- **Collections**: Group related assets into collections for easier management (feature not yet functional)
 - **Responsive Design**: Modern UI that works across desktop and mobile devices
 
 ## Tech Stack
@@ -51,7 +61,7 @@ This Digital Asset Management (DAM) system solves these challenges by providing 
 - React Router for navigation
 - CSS for styling
 
-### Backend (Planned)
+### Backend (Partially Implemented)
 - Node.js
 - Express
 - MongoDB
@@ -76,14 +86,29 @@ This Digital Asset Management (DAM) system solves these challenges by providing 
    # Install frontend dependencies
    cd frontend
    npm install
+   
+   # Install backend dependencies
+   cd ../backend
+   npm install
    ```
 
-3. Start the frontend development server:
+3. Start both servers together:
    ```
-   npm start
+   # From the project root directory
+   ./run
    ```
 
-4. The application will be available at `http://localhost:3002`
+4. The application will be available at:
+   - Frontend: `http://localhost:3000`
+   - Backend API: `http://localhost:4000`
+
+## Known Issues
+
+- Image loading may fail in some environments
+- Collections feature is not yet implemented
+- Upload functionality is not working
+- Backend integration is incomplete
+- Most functionality relies on mock data rather than a real database
 
 ## Project Structure
 
@@ -98,12 +123,15 @@ Digital-Asset-Management-DAM-for-Media-Companies/
 │   │   ├── services/         # API services
 │   │   └── App.js            # Main App component
 │   └── package.json          # Frontend dependencies
+├── backend/                  # Backend application (partially implemented)
+│   ├── src/                  # Source code
+│   │   ├── controllers/      # Request handlers
+│   │   ├── models/           # Data models
+│   │   ├── routes/           # API routes
+│   │   └── index.js          # Main entry point
+│   └── package.json          # Backend dependencies
 └── README.md                 # Project documentation
 ```
-
-## Current Status
-
-This project is in active development. The frontend authentication flow and user dashboard are functional with mock data. **Note: The collections and upload functionality are not yet working** - these features are in development. Backend integration is planned for the next phase.
 
 ## License
 
