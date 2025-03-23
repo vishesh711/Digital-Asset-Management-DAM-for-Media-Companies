@@ -83,6 +83,8 @@ This Digital Asset Management (DAM) system aims to solve these challenges by pro
 
 2. Install dependencies:
    ```
+   # Make sure you're in the project root directory
+   
    # Install frontend dependencies
    cd frontend
    npm install
@@ -90,17 +92,86 @@ This Digital Asset Management (DAM) system aims to solve these challenges by pro
    # Install backend dependencies
    cd ../backend
    npm install
+   
+   # Return to project root
+   cd ..
    ```
 
-3. Start both servers together:
+## Running the Project
+
+### Quick Start (Both Frontend and Backend)
+
+The easiest way to run the entire project is to use the included run script, which will start both the frontend and backend servers simultaneously:
+
+1. Make sure you're in the project root directory
+2. Make the run script executable (only needed once):
    ```
-   # From the project root directory
+   chmod +x ./run
+   ```
+3. Start both servers:
+   ```
    ./run
    ```
-
 4. The application will be available at:
    - Frontend: `http://localhost:3000`
    - Backend API: `http://localhost:4000`
+5. To stop both servers, press `Ctrl+C` in the terminal
+
+### Starting Components Separately
+
+If you prefer to run the components individually, or if you need to troubleshoot issues:
+
+#### Frontend Only
+```
+cd frontend
+npm start
+```
+The frontend will be available at `http://localhost:3000`
+
+#### Backend Only
+```
+cd backend
+npm run dev
+```
+The backend API will be available at `http://localhost:4000`
+
+### What Each Component Does
+
+- **Frontend (port 3000)**: The user interface of the application where users can browse assets, view the dashboard, and interact with the system. Currently uses mock data for demonstration.
+
+- **Backend (port 4000)**: The API server that handles data persistence, authentication, and business logic. Currently partially implemented with basic endpoints.
+
+### Troubleshooting
+
+If you encounter issues starting the application:
+
+1. **Port conflicts**: Make sure ports 3000 and 4000 are not being used by other applications
+   ```
+   # Check if ports are in use (macOS/Linux)
+   lsof -i:3000
+   lsof -i:4000
+   
+   # Kill processes using those ports if necessary
+   kill -9 <PID>
+   ```
+
+2. **Dependencies issues**: If you encounter errors related to missing modules, try reinstalling dependencies
+   ```
+   # For frontend
+   cd frontend
+   rm -rf node_modules
+   npm install
+   
+   # For backend
+   cd ../backend
+   rm -rf node_modules
+   npm install
+   ```
+
+3. **Script permissions**: If the run script doesn't execute, make sure it has the correct permissions
+   ```
+   chmod +x ./run
+   ```
 
 ## Known Issues
 
@@ -130,6 +201,7 @@ Digital-Asset-Management-DAM-for-Media-Companies/
 │   │   ├── routes/           # API routes
 │   │   └── index.js          # Main entry point
 │   └── package.json          # Backend dependencies
+├── run                       # Script to run both frontend and backend
 └── README.md                 # Project documentation
 ```
 
