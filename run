@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Kill any processes running on ports 3000 and 4000
+echo "Stopping any existing processes..."
+lsof -t -i:3000 -i:4000 | xargs -r kill -9
+
+# Start the backend in the background
+echo "Starting the backend server on port 4000..."
+cd backend && npm run dev &
+BACKEND_PID=$!
+
+# Start the frontend
+echo "Starting the frontend server on port 3000..."
+cd frontend && npm start
+
+# When the frontend is stopped, also stop the backend
+echo "Stopping the backend server..."
+kill $BACKEND_PID 

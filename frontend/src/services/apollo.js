@@ -1,8 +1,7 @@
 import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { store } from '../store';
-import { refreshToken, logout } from '../store/auth/authSlice';
+import { Observable } from '@apollo/client';
 
 // API URL for GraphQL endpoint
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000';
@@ -26,6 +25,17 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+// Helper function to get the store
+const getStore = () => {
+  return import('../store').then(module => module.store);
+};
+
+// Helper function to dispatch actions
+const dispatchAction = async (action) => {
+  const store = await getStore();
+  return store.dispatch(action);
+};
+
 // Error handling link
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
   if (graphQLErrors) {
@@ -34,31 +44,41 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
       if (err.extensions && err.extensions.code === 'UNAUTHENTICATED') {
         // Try to refresh the token
         return new Observable(observer => {
-          store.dispatch(refreshToken())
-            .unwrap()
-            .then(() => {
-              // Retry the operation with new token
-              const token = localStorage.getItem('token');
-              const oldHeaders = operation.getContext().headers;
-              operation.setContext({
-                headers: {
-                  ...oldHeaders,
-                  authorization: token ? `Bearer ${token}` : '',
-                },
+          // Import the actions dynamically to avoid circular dependency
+          import('../store/auth/authSlice').then(module => {
+            const { refreshToken, logout } = module;
+            
+            dispatchAction(refreshToken())
+              .then((result) => {
+                if (result.type.endsWith('/fulfilled')) {
+                  // Retry the operation with new token
+                  const token = localStorage.getItem('token');
+                  const oldHeaders = operation.getContext().headers;
+                  operation.setContext({
+                    headers: {
+                      ...oldHeaders,
+                      authorization: token ? `Bearer ${token}` : '',
+                    },
+                  });
+                  
+                  // Retry the operation
+                  forward(operation).subscribe({
+                    next: observer.next.bind(observer),
+                    error: observer.error.bind(observer),
+                    complete: observer.complete.bind(observer),
+                  });
+                } else {
+                  // If refresh fails, log out
+                  dispatchAction(logout());
+                  observer.error(err);
+                }
+              })
+              .catch(() => {
+                // If there's an error, log out
+                dispatchAction(logout());
+                observer.error(err);
               });
-              
-              // Retry the operation
-              forward(operation).subscribe({
-                next: observer.next.bind(observer),
-                error: observer.error.bind(observer),
-                complete: observer.complete.bind(observer),
-              });
-            })
-            .catch(() => {
-              // If refresh fails, log out
-              store.dispatch(logout());
-              observer.error(err);
-            });
+          });
         });
       }
     }
